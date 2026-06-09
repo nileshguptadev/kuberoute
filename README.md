@@ -39,24 +39,24 @@ Download the latest release for your platform from [GitHub Releases](https://git
 ```bash
 curl -LO https://github.com/nileshguptadev/kuberoute/releases/latest/download/kuberoute-linux-amd64.tar.gz
 tar -xzf kuberoute-linux-amd64.tar.gz
-chmod +x kuberoute-linux-amd64
-sudo mv kuberoute-linux-amd64 /usr/local/bin/kuberoute
+chmod +x kuberoute
+sudo mv kuberoute /usr/local/bin/
 ```
 
 **macOS (Intel):**
 ```bash
 curl -LO https://github.com/nileshguptadev/kuberoute/releases/latest/download/kuberoute-darwin-amd64.tar.gz
 tar -xzf kuberoute-darwin-amd64.tar.gz
-chmod +x kuberoute-darwin-amd64
-sudo mv kuberoute-darwin-amd64 /usr/local/bin/kuberoute
+chmod +x kuberoute
+sudo mv kuberoute /usr/local/bin/
 ```
 
 **macOS (Apple Silicon):**
 ```bash
 curl -LO https://github.com/nileshguptadev/kuberoute/releases/latest/download/kuberoute-darwin-arm64.tar.gz
 tar -xzf kuberoute-darwin-arm64.tar.gz
-chmod +x kuberoute-darwin-arm64
-sudo mv kuberoute-darwin-arm64 /usr/local/bin/kuberoute
+chmod +x kuberoute
+sudo mv kuberoute /usr/local/bin/
 ```
 
 **Windows:**

@@ -44,18 +44,18 @@ jobs:
         GOOS: ${{ matrix.goos }}
         GOARCH: ${{ matrix.goarch }}
       run: |
-        go build -ldflags="-s -w" -o kuberoute-${{ matrix.suffix }}${{ matrix.ext }} .
+        go build -ldflags="-s -w" -o kuberoute${{ matrix.ext }} .
 
     - name: Package (non-Windows)
       if: matrix.goos != 'windows'
       run: |
-        tar -czf kuberoute-${{ matrix.suffix }}.tar.gz kuberoute-${{ matrix.suffix }}
+        tar -czf kuberoute-${{ matrix.suffix }}.tar.gz kuberoute
         echo "artifact=kuberoute-${{ matrix.suffix }}.tar.gz" >> $GITHUB_ENV
 
     - name: Package (Windows)
       if: matrix.goos == 'windows'
       run: |
-        zip kuberoute-${{ matrix.suffix }}.zip kuberoute-${{ matrix.suffix }}.exe
+        zip kuberoute-${{ matrix.suffix }}.zip kuberoute.exe
         echo "artifact=kuberoute-${{ matrix.suffix }}.zip" >> $GITHUB_ENV
 
     - name: Upload artifact
