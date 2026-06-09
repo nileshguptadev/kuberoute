@@ -14,8 +14,8 @@ import (
 
 func main() {
 	var (
-		namespace     string
-		targetPath    string
+		namespace      string
+		targetPath     string
 		kubeconfigFlag string
 	)
 
