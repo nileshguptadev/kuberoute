@@ -117,6 +117,17 @@ mv kuberoute /usr/local/bin/
 
 ---
 
+## Example: Using a Custom Kubeconfig
+
+```bash
+# Using a custom kubeconfig path
+./kuberoute --kubeconfig=/path/to/custom/kubeconfig --namespace=my-app
+
+# Kubeconfig can also be set via the KUBECONFIG environment variable
+export KUBECONFIG=/path/to/custom/kubeconfig
+./kuberoute --namespace=my-app
+```
+
 ## Example: Troubleshooting a 404
 
 ```bash
@@ -175,10 +186,11 @@ If the ingress points to a service that no longer exists:
 
 ## Flags
 
-| Flag        | Default   | Description                           |
-|-------------|-----------|---------------------------------------|
-| `--namespace` | `default` | Kubernetes namespace to investigate   |
-| `--path`      | `/`       | HTTP path to trace through ingresses  |
+| Flag          | Default           | Description                                                                          |
+|---------------|-------------------|--------------------------------------------------------------------------------------|
+| `--namespace` | `default`         | Kubernetes namespace to investigate                                                  |
+| `--path`      | `/`               | HTTP path to trace through ingresses                                                 |
+| `--kubeconfig`| `~/.kube/config`  | Path to kubeconfig file (overrides KUBECONFIG env var and default path)              |
 
 ---
 
