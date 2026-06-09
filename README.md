@@ -31,11 +31,42 @@ You mentally stitch these resources together while under pressure. **KubeRoute e
 
 ## Installation
 
+### Pre-built Binaries (Recommended)
+
+Download the latest release for your platform from [GitHub Releases](https://github.com/nileshguptadev/kuberoute/releases):
+
+**Linux (amd64):**
+```bash
+curl -LO https://github.com/nileshguptadev/kuberoute/releases/latest/download/kuberoute-linux-amd64.tar.gz
+tar -xzf kuberoute-linux-amd64.tar.gz
+chmod +x kuberoute-linux-amd64
+sudo mv kuberoute-linux-amd64 /usr/local/bin/kuberoute
+```
+
+**macOS (Intel):**
+```bash
+curl -LO https://github.com/nileshguptadev/kuberoute/releases/latest/download/kuberoute-darwin-amd64.tar.gz
+tar -xzf kuberoute-darwin-amd64.tar.gz
+chmod +x kuberoute-darwin-amd64
+sudo mv kuberoute-darwin-amd64 /usr/local/bin/kuberoute
+```
+
+**macOS (Apple Silicon):**
+```bash
+curl -LO https://github.com/nileshguptadev/kuberoute/releases/latest/download/kuberoute-darwin-arm64.tar.gz
+tar -xzf kuberoute-darwin-arm64.tar.gz
+chmod +x kuberoute-darwin-arm64
+sudo mv kuberoute-darwin-arm64 /usr/local/bin/kuberoute
+```
+
+**Windows:**
+Download `kuberoute-windows-amd64.zip` from the releases page, extract it, and add `kuberoute.exe` to your PATH.
+
 ### From Source
 
 ```bash
 # Clone the repository
-git clone https://github.com/<user>/kuberoute.git
+git clone https://github.com/nileshguptadev/kuberoute.git
 cd kuberoute
 
 # Build the binary
@@ -47,8 +78,8 @@ mv kuberoute /usr/local/bin/
 
 ### Requirements
 
-- Go 1.21+
 - A valid `~/.kube/config` file with access to your target cluster
+- (Only for building from source) Go 1.21+
 
 ---
 
