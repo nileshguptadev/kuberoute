@@ -17,12 +17,19 @@ func main() {
 		namespace      string
 		targetPath     string
 		kubeconfigFlag string
+		outputFlag     string
 	)
 
 	flag.StringVar(&namespace, "namespace", "default", "Kubernetes namespace to trace")
 	flag.StringVar(&targetPath, "path", "/", "HTTP path to trace through ingress rules")
 	flag.StringVar(&kubeconfigFlag, "kubeconfig", "", "Path to kubeconfig file")
+	flag.StringVar(&outputFlag, "output", "tree", "Output format: tree or json")
 	flag.Parse()
+
+	if outputFlag != "tree" && outputFlag != "json" {
+		flag.Usage()
+		os.Exit(1)
+	}
 
 	// Resolve kubeconfig path with kubectl-compatible fallback chain
 	kubeconfig := kubeconfigFlag
@@ -35,13 +42,13 @@ func main() {
 		}
 	}
 
-	if err := run(namespace, targetPath, kubeconfig); err != nil {
+	if err := run(namespace, targetPath, kubeconfig, outputFlag); err != nil {
 		color.Red("❌ KubeRoute failed: %v\n", err)
 		os.Exit(1)
 	}
 }
 
-func run(namespace, targetPath, kubeconfig string) error {
+func run(namespace, targetPath, kubeconfig, output string) error {
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
 	if err != nil {
 		return fmt.Errorf("unable to load kubeconfig from %s: %w", kubeconfig, err)
@@ -55,6 +62,13 @@ func run(namespace, targetPath, kubeconfig string) error {
 		return fmt.Errorf("unable to create Kubernetes clientset: %w", err)
 	}
 
+	result, err := TraceRouteResult(clientset, namespace, targetPath)
+	if err != nil {
+		return err
+	}
+	if output == "json" {
+		return RenderRouteJSON(result, os.Stdout)
+	}
 	color.Cyan("🔍 KubeRoute — Tracing path %q in namespace %q\n\n", targetPath, namespace)
-	return TraceRoute(clientset, namespace, targetPath)
+	return RenderRoute(result, os.Stdout)
 }

@@ -191,6 +191,51 @@ If the ingress points to a service that no longer exists:
 | `--namespace` | `default`         | Kubernetes namespace to investigate                                                  |
 | `--path`      | `/`               | HTTP path to trace through ingresses                                                 |
 | `--kubeconfig`| `~/.kube/config`  | Path to kubeconfig file (overrides KUBECONFIG env var and default path)              |
+| `--output`    | `tree`            | Output format: `tree` (colored ASCII) or `json` (structured, CI-friendly)           |
+
+---
+
+## Example: CI/CD Integration with --output=json
+
+Colored trees are great for humans, but CI pipelines, monitoring tools, and log aggregators cannot parse ANSI escape codes. The `--output=json` flag produces structured JSON that is machine-readable and works seamlessly in automated environments.
+
+```bash
+./kuberoute --namespace=staging --path=/api --output=json
+```
+
+Sample JSON output:
+```json
+{
+  "namespace": "staging",
+  "targetPath": "/api",
+  "ingressFound": true,
+  "ingressName": "api-ingress",
+  "matchedPath": "/api",
+  "backendService": "api-service",
+  "backendPort": 8080,
+  "serviceFound": true,
+  "serviceName": "api-service",
+  "serviceType": "ClusterIP",
+  "podsFound": true,
+  "podCount": 2,
+  "pods": [
+    {"name": "api-7d9f4b8c5-x1abc", "ready": true, "status": "Running"},
+    {"name": "api-7d9f4b8c5-y2def", "ready": true, "status": "Running"}
+  ],
+  "selectors": {"app": "api"}
+}
+```
+
+CI pipeline gate example:
+```bash
+# In a GitHub Actions / GitLab CI pipeline
+RESULT=$(./kuberoute --namespace=prod --path=/api --output=json)
+PODS_FOUND=$(echo "$RESULT" | jq -r '.podsFound')
+if [ "$PODS_FOUND" != "true" ]; then
+    echo "Route verification failed — no pods found!"
+    exit 1
+fi
+```
 
 ---
 
